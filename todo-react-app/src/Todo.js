@@ -103,7 +103,9 @@ class Todo extends React.Component {
           <Checkbox checked={item.done} onChange={this.checkboxEventHandler} />
           <ListItemText
             primary={item.title}
-            secondary={`${new Date(item.deadline).toLocaleString()}`} //deadline 표시
+            secondary={
+              item.deadline ? new Date(item.deadline).toLocaleString() : "" // deadline 설정 안 할 경우 빈 문자열 표시
+            }
             onClick={this.handleOpen}
           />
           <ListItemSecondaryAction>
