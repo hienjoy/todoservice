@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 import "./App.css";
 import { call, signout } from "./service/ApiService";
+import DeleteDoneAll from "./Functions/DeleteDoneAll";
+import Clear from "./Functions/Clear";
 
 class App extends React.Component {
   constructor(props) {
@@ -34,6 +36,31 @@ class App extends React.Component {
     call("/todo", "DELETE", item).then((response) =>
       this.setState({ items: response.data })
     );
+  };
+
+  //완료 리스트 일괄 삭제
+  clearAllDonelist = () => {
+    const thisItems = this.state.items;
+    console.log(this.state.items);
+    console.log(this.state.items.done);
+    thisItems.forEach((tdl) => {
+      if (tdl.done === true) {
+        call("/todo", "DELETE", tdl).then((response) =>
+          this.setState({ items: response.data })
+        );
+      }
+    });
+  };
+
+  //일괄 삭제
+  clearAll = () => {
+    const thisItems = this.state.items;
+    console.log(this.state.items);
+    thisItems.forEach((tdl) => {
+      call("/todo", "DELETE", tdl).then((response) =>
+        this.setState({ items: response.data })
+      );
+    });
   };
 
   update = (item) => {
@@ -92,6 +119,8 @@ class App extends React.Component {
           <AddTodo add={this.add} />
           <div className="TodoList">{todoItems}</div>
         </Container>
+        <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
+        <Clear clearAll={this.clearAll} />
       </div>
     );
 
