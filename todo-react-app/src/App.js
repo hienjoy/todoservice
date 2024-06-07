@@ -1,6 +1,7 @@
 import React from "react";
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
+import TodoStats from "./Functions/TodoStats";
 import {
   Paper,
   List,
@@ -117,6 +118,7 @@ class App extends React.Component {
         {navigationBar}
         <Container maxWidth="md">
           <AddTodo add={this.add} />
+          <TodoStats todos={this.state.items} />
           <div className="TodoList">{todoItems}</div>
         </Container>
         <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
