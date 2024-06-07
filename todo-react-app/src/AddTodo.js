@@ -4,39 +4,53 @@ import { TextField, Paper, Button, Grid } from "@material-ui/core";
 class AddTodo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { item: { title: "" } };
+    this.state = { item: { title: "", content: "" } };
     this.add = props.add;
   }
   onInputChange = (e) => {
     const thisItem = this.state.item;
-    thisItem.title = e.target.value;
+    thisItem[e.target.name] = e.target.value;
     this.setState({ item: thisItem });
   };
 
   onButtonClick = () => {
     this.add(this.state.item);
-    this.setState({ item: { title: "" } });
+    this.setState({ item: { title: "", content: "" } }); //입력 필드 초기화
   };
 
-  enterKeyEventHandler = (e) => {
-    if (e.key === "Enter") {
-      this.onButtonClick();
-    }
-  };
+  // 엔터키 작성 완료 되지 않게
+  // enterKeyEventHandler = (e) => {
+  //   if (e.key === "Enter") {
+  //     this.onButtonClick();
+  //   }
+  // };
+
   render() {
     return (
       <Paper style={{ margin: 16, padding: 16 }}>
-        <Grid container>
+        <Grid container spacing={5}>
           <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+            <p>Title</p>
             <TextField
-              placeholder="Add Todo here"
+              name="title"
+              placeholder="Add Title here"
               fullWidth
               onChange={this.onInputChange}
               value={this.state.item.title}
-              onKeyPress={this.enterKeyEventHandler}
+              //onKeyPress={this.enterKeyEventHandler}
             />
           </Grid>
-          <Grid xs={1} md={1} item>
+          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+            <p>Content</p>
+            <TextField
+              name="content"
+              placeholder="Add Content here"
+              fullWidth
+              onChange={this.onInputChange}
+              value={this.state.item.content}
+            />
+          </Grid>
+          <Grid xs={2} md={2} item>
             <Button
               fullWidth
               color="secondary"
