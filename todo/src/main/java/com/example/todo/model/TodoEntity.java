@@ -1,5 +1,7 @@
 package com.example.todo.model;
 
+import java.time.LocalDateTime;
+
 //import javax.persistence.Entity;
 //import javax.persistence.GeneratedValue;
 //import javax.persistence.Id;
@@ -30,5 +32,6 @@ public class TodoEntity {
 	private String userId;
 	private String title;
 	private String content; //내용 필드 추가
+	private LocalDateTime deadline; //기간 필드 추가
 	private boolean done;
 }
