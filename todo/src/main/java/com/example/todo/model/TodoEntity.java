@@ -29,5 +29,6 @@ public class TodoEntity {
 	private String id;
 	private String userId;
 	private String title;
+	private String content; //내용 필드 추가
 	private boolean done;
 }
