@@ -101,7 +101,11 @@ class Todo extends React.Component {
       <>
         <ListItem style={{ cursor: "pointer" }}>
           <Checkbox checked={item.done} onChange={this.checkboxEventHandler} />
-          <ListItemText primary={item.title} onClick={this.handleOpen} />
+          <ListItemText
+            primary={item.title}
+            secondary={`${new Date(item.deadline).toLocaleString()}`} //deadline 표시
+            onClick={this.handleOpen}
+          />
           <ListItemSecondaryAction>
             <IconButton aria-label="Delete" onClick={this.deleteEventHandler}>
               <DeleteOutlined />
@@ -109,12 +113,7 @@ class Todo extends React.Component {
           </ListItemSecondaryAction>
         </ListItem>
 
-        <Modal
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
+        <Modal open={this.state.open} onClose={this.handleClose}>
           <Paper
             style={{
               margin: "auto",
@@ -170,6 +169,17 @@ class Todo extends React.Component {
               multiline
               fullWidth
               onChange={this.editEventHandler}
+            />
+            <InputBase
+              inputProps={{
+                readOnly: this.state.readOnly,
+              }}
+              type="datetime-local"
+              name="deadline"
+              value={tempItem.deadline}
+              fullWidth
+              onChange={this.editEventHandler}
+              //onKeyDown={this.enterKeyEventHandler}
             />
             <Button
               variant="contained"

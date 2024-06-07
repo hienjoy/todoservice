@@ -4,7 +4,7 @@ import { TextField, Paper, Button, Grid } from "@material-ui/core";
 class AddTodo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { item: { title: "", content: "" } };
+    this.state = { item: { title: "", content: "", deadline: "" } };
     this.add = props.add;
   }
   onInputChange = (e) => {
@@ -15,7 +15,7 @@ class AddTodo extends React.Component {
 
   onButtonClick = () => {
     this.add(this.state.item);
-    this.setState({ item: { title: "", content: "" } }); //입력 필드 초기화
+    this.setState({ item: { title: "", content: "", deadline: "" } }); //입력 필드 초기화
   };
 
   // 엔터키 작성 완료 되지 않게
@@ -46,8 +46,19 @@ class AddTodo extends React.Component {
               name="content"
               placeholder="Add Content here"
               fullWidth
+              multiline
               onChange={this.onInputChange}
               value={this.state.item.content}
+            />
+          </Grid>
+          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+            <p>deadline</p>
+            <TextField
+              name="deadline"
+              type="datetime-local"
+              fullWidth
+              value={this.state.item.deadline}
+              onChange={this.onInputChange}
             />
           </Grid>
           <Grid xs={2} md={2} item>
