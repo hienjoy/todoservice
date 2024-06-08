@@ -32,6 +32,7 @@ export function call(api, method, request) {
       console.log(error.status);
       console.log("Oops!");
       if (error.status === 403) {
+        //console.log("403 forbidden");
         window.location.href = "/login";
       }
       return Promise.reject(error);
@@ -72,6 +73,7 @@ export function signup(userDTO) {
 // 로그아웃
 export function signout() {
   // local 스토리지에 토큰 삭제
-  localStorage.setItem("ACCESS_TOKEN", null);
+  //localStorage.setItem("ACCESS_TOKEN", null);
+  localStorage.removeItem("ACCESS_TOKEN");
   window.location.href = "/";
 }

@@ -65,7 +65,8 @@ class SignUp extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                autoComplete="current-password"
+                type="password"
+                // autoComplete="current-password"
                 name="password"
                 variant="outlined"
                 required

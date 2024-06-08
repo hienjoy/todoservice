@@ -11,6 +11,8 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import "./App.css";
 import { call, signout } from "./service/ApiService";
@@ -24,6 +26,7 @@ class App extends React.Component {
       items: [],
       // 로딩 중이라는 상태를 표현할 변수 생성자에 상태 변수를 초기화한다.
       loading: true,
+      sortList: "register",
     };
   }
 
@@ -70,20 +73,39 @@ class App extends React.Component {
     );
   };
 
+  //정렬 추가
+  sortItems = (items) => {
+    const { sortList } = this.state;
+    if (sortList === "deadline") {
+      return [...items].sort((a, b) => {
+        if (a.deadline === null) return 1;
+        if (b.deadline === null) return -1;
+        return new Date(a.deadline) - new Date(b.deadline);
+      });
+    } else if (sortList === "register") {
+      return items;
+    }
+    return items;
+  };
+
+  handleSort = (e) => {
+    this.setState({ sortList: e.target.value });
+  };
+
   // componentDidmount는 페이지(돔) 마운트가 일어나고 렌더링되기 전에 실행된다.
   componentDidMount() {
     call("/todo", "GET", null).then((response) =>
       this.setState({ items: response.data, loading: false })
     );
   }
-
   render() {
     // todoItems에 this.state.items.length가 0보다 크다면 true이므로 && 뒤에 값을 넘겨준다.
     // todoItem = this.state.items.length > 0 ? (<Paper></Paper>):""; 이렇게 해도 같은 결과이다. 조건선택문 ? ternary operator
+    const sortItems = this.sortItems(this.state.items);
     const todoItems = this.state.items.length > 0 && (
       <Paper style={{ margin: 16 }}>
         <List>
-          {this.state.items.map((item, idx) => (
+          {sortItems.map((item, idx) => (
             <Todo
               item={item}
               key={item.id}
@@ -119,6 +141,10 @@ class App extends React.Component {
         <Container maxWidth="md">
           <AddTodo add={this.add} />
           <TodoStats todos={this.state.items} />
+          <Select value={this.state.sortList} onChange={this.handleSort}>
+            <MenuItem value="deadline">마감일순</MenuItem>
+            <MenuItem value="register">등록순</MenuItem>
+          </Select>
           <div className="TodoList">{todoItems}</div>
         </Container>
         <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
