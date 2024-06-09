@@ -123,8 +123,8 @@ class Todo extends React.Component {
               margin: "auto",
               marginTop: "10%",
               padding: 20,
-              width: 500,
-              height: 400,
+              width: 600,
+              height: 600,
               position: "relative",
             }}
           >
@@ -185,11 +185,23 @@ class Todo extends React.Component {
               onChange={this.editEventHandler}
               //onKeyDown={this.enterKeyEventHandler}
             />
-            <p>Priority</p>
+            <p>Star</p>
             <Rating
               name="star"
               value={tempItem.star}
               readOnly={this.state.readOnly}
+            />
+            <p>Priority</p>
+            <InputBase
+              inputProps={{
+                readOnly: this.state.readOnly,
+                min: 1,
+              }}
+              type="number"
+              name="priority"
+              value={tempItem.priority}
+              fullWidth
+              onChange={this.editEventHandler}
             />
             <Button
               variant="contained"

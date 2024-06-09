@@ -5,7 +5,7 @@ class AddTodo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: { title: "", content: "", deadline: "", star: 0 },
+      item: { title: "", content: "", deadline: "", star: 0, priority: null },
     };
     this.add = props.add;
   }
@@ -19,7 +19,7 @@ class AddTodo extends React.Component {
   onButtonClick = () => {
     this.add(this.state.item);
     this.setState({
-      item: { title: "", content: "", deadline: "" },
+      item: { title: "", content: "", deadline: "", star: 0, priority: null },
     }); //입력 필드 초기화
   };
 
@@ -80,7 +80,17 @@ class AddTodo extends React.Component {
               onChange={this.onRatingChange}
             />
           </Grid>
-
+          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+            <p>Priority</p>
+            <TextField
+              inputProps={{ min: 1 }}
+              name="priority"
+              type="number"
+              fullWidth
+              onChange={this.onInputChange}
+              value={this.state.item.priority}
+            />
+          </Grid>
           <Grid xs={2} md={2} item>
             <Button
               fullWidth

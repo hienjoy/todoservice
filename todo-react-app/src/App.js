@@ -85,6 +85,12 @@ class App extends React.Component {
       });
     } else if (sortList === "star") {
       return [...items].sort((a, b) => b.star - a.star);
+    } else if (sortList === "priority") {
+      return [...items].sort((a, b) => {
+        if (a.priority === null) return 1;
+        if (b.priority === null) return -1;
+        return a.priority - b.priority;
+      });
     }
     return items;
   };
@@ -146,6 +152,7 @@ class App extends React.Component {
             <MenuItem value="deadline">마감일순</MenuItem>
             <MenuItem value="register">등록순</MenuItem>
             <MenuItem value="star">중요도순</MenuItem>
+            <MenuItem value="priority">우선순위순</MenuItem>
           </Select>
           <div className="TodoList">{todoItems}</div>
         </Container>
