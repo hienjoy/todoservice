@@ -34,5 +34,6 @@ public class TodoEntity {
 	private String content; //내용 필드 추가
 	private LocalDateTime deadline; //기간 필드 추가
 	private Integer star; //중요도 필드 추가
+	private Integer priority; //우선순위 필드 추가
 	private boolean done;
 }
