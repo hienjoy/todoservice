@@ -14,11 +14,12 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-// import { Rating } from "@material-ui/lab";
 import "./App.css";
 import { call, signout } from "./service/ApiService";
 import DeleteDoneAll from "./Functions/DeleteDoneAll";
 import Clear from "./Functions/Clear";
+import Weathers from "./Functions/Weathers";
+//import Quotes from "./Functions/Quotes";
 
 class App extends React.Component {
   constructor(props) {
@@ -158,6 +159,8 @@ class App extends React.Component {
         </Container>
         <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
         <Clear clearAll={this.clearAll} />
+        <Weathers />
+        {/* <Quotes /> */}
       </div>
     );
 
