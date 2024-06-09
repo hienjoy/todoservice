@@ -14,6 +14,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+// import { Rating } from "@material-ui/lab";
 import "./App.css";
 import { call, signout } from "./service/ApiService";
 import DeleteDoneAll from "./Functions/DeleteDoneAll";
@@ -82,8 +83,8 @@ class App extends React.Component {
         if (b.deadline === null) return -1;
         return new Date(a.deadline) - new Date(b.deadline);
       });
-    } else if (sortList === "register") {
-      return items;
+    } else if (sortList === "star") {
+      return [...items].sort((a, b) => b.star - a.star);
     }
     return items;
   };
@@ -144,6 +145,7 @@ class App extends React.Component {
           <Select value={this.state.sortList} onChange={this.handleSort}>
             <MenuItem value="deadline">마감일순</MenuItem>
             <MenuItem value="register">등록순</MenuItem>
+            <MenuItem value="star">중요도순</MenuItem>
           </Select>
           <div className="TodoList">{todoItems}</div>
         </Container>

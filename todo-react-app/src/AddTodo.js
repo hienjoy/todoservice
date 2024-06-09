@@ -1,11 +1,11 @@
 import React from "react";
 import { TextField, Paper, Button, Grid } from "@material-ui/core";
-
+import { Rating } from "@material-ui/lab";
 class AddTodo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: { title: "", content: "", deadline: "" },
+      item: { title: "", content: "", deadline: "", star: 0 },
     };
     this.add = props.add;
   }
@@ -21,6 +21,12 @@ class AddTodo extends React.Component {
     this.setState({
       item: { title: "", content: "", deadline: "" },
     }); //입력 필드 초기화
+  };
+
+  onRatingChange = (e, newValue) => {
+    const thisItem = this.state.item;
+    thisItem.star = newValue;
+    this.setState({ item: thisItem });
   };
 
   // 엔터키 작성 완료 되지 않게
@@ -66,6 +72,15 @@ class AddTodo extends React.Component {
               onChange={this.onInputChange}
             />
           </Grid>
+          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
+            <p>Star</p>
+            <Rating
+              name="star"
+              value={this.state.item.star}
+              onChange={this.onRatingChange}
+            />
+          </Grid>
+
           <Grid xs={2} md={2} item>
             <Button
               fullWidth

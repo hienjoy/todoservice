@@ -12,6 +12,7 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -108,6 +109,7 @@ class Todo extends React.Component {
             }
             onClick={this.handleOpen}
           />
+          <Rating value={item.star} readOnly />
           <ListItemSecondaryAction>
             <IconButton aria-label="Delete" onClick={this.deleteEventHandler}>
               <DeleteOutlined />
@@ -182,6 +184,12 @@ class Todo extends React.Component {
               fullWidth
               onChange={this.editEventHandler}
               //onKeyDown={this.enterKeyEventHandler}
+            />
+            <p>Priority</p>
+            <Rating
+              name="star"
+              value={tempItem.star}
+              readOnly={this.state.readOnly}
             />
             <Button
               variant="contained"
