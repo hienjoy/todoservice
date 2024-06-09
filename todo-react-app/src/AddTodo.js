@@ -19,7 +19,7 @@ class AddTodo extends React.Component {
   onButtonClick = () => {
     this.add(this.state.item);
     this.setState({
-      item: { title: "", content: "", deadline: "", star: 0, priority: null },
+      item: { title: "", content: "", deadline: "", star: 0, priority: "" },
     }); //입력 필드 초기화
   };
 
