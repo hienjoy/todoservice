@@ -2,24 +2,14 @@ import React from "react";
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
 import TodoStats from "./Functions/TodoStats";
-import {
-  Paper,
-  List,
-  Container,
-  Grid,
-  Button,
-  AppBar,
-  Toolbar,
-  Typography,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
+import { Paper, List, Container, Select, MenuItem } from "@material-ui/core";
 import "./App.css";
-import { call, signout } from "./service/ApiService";
+import { call } from "./service/ApiService";
 import DeleteDoneAll from "./Functions/DeleteDoneAll";
 import Clear from "./Functions/Clear";
 import Weathers from "./Functions/Weathers";
 import Quotes from "./Functions/Quotes";
+import navigationBar from "./navigation";
 
 class App extends React.Component {
   constructor(props) {
@@ -123,24 +113,6 @@ class App extends React.Component {
           ))}
         </List>
       </Paper>
-    );
-
-    // navigationBar
-    var navigationBar = (
-      <AppBar position="static">
-        <Toolbar>
-          <Grid justifyContent="space-between" container>
-            <Grid item>
-              <Typography variant="h6">오늘의 할일</Typography>
-            </Grid>
-            <Grid item>
-              <Button color="inherit" onClick={signout}>
-                logout
-              </Button>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
     );
 
     var todoListPage = (
