@@ -2,7 +2,14 @@ import React from "react";
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
 import TodoStats from "./Functions/TodoStats";
-import { Paper, List, Container, Select, MenuItem } from "@material-ui/core";
+import {
+  Paper,
+  Container,
+  Select,
+  MenuItem,
+  Grid,
+  Button,
+} from "@material-ui/core";
 import "./App.css";
 import { call } from "./service/ApiService";
 import DeleteDoneAll from "./Functions/DeleteDoneAll";
@@ -16,9 +23,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       items: [],
-      // 로딩 중이라는 상태를 표현할 변수 생성자에 상태 변수를 초기화한다.
       loading: true,
       sortList: "register",
+      currentPage: 1,
+      itemsPerPage: 6,
     };
   }
 
@@ -37,8 +45,6 @@ class App extends React.Component {
   //완료 리스트 일괄 삭제
   clearAllDonelist = () => {
     const thisItems = this.state.items;
-    console.log(this.state.items);
-    console.log(this.state.items.done);
     thisItems.forEach((tdl) => {
       if (tdl.done === true) {
         call("/todo", "DELETE", tdl).then((response) =>
@@ -51,7 +57,6 @@ class App extends React.Component {
   //일괄 삭제
   clearAll = () => {
     const thisItems = this.state.items;
-    console.log(this.state.items);
     thisItems.forEach((tdl) => {
       call("/todo", "DELETE", tdl).then((response) =>
         this.setState({ items: response.data })
@@ -65,7 +70,6 @@ class App extends React.Component {
     );
   };
 
-  //정렬 추가
   sortItems = (items) => {
     const { sortList } = this.state;
     if (sortList === "deadline") {
@@ -90,53 +94,123 @@ class App extends React.Component {
     this.setState({ sortList: e.target.value });
   };
 
-  // componentDidmount는 페이지(돔) 마운트가 일어나고 렌더링되기 전에 실행된다.
+  handleClickNext = () => {
+    this.setState((prevState) => ({ currentPage: prevState.currentPage + 1 }));
+  };
+
+  handleClickPrev = () => {
+    this.setState((prevState) => ({ currentPage: prevState.currentPage - 1 }));
+  };
+
   componentDidMount() {
     call("/todo", "GET", null).then((response) =>
       this.setState({ items: response.data, loading: false })
     );
   }
+
   render() {
-    // todoItems에 this.state.items.length가 0보다 크다면 true이므로 && 뒤에 값을 넘겨준다.
-    // todoItem = this.state.items.length > 0 ? (<Paper></Paper>):""; 이렇게 해도 같은 결과이다. 조건선택문 ? ternary operator
-    const sortItems = this.sortItems(this.state.items);
-    const todoItems = this.state.items.length > 0 && (
-      <Paper style={{ margin: 16 }}>
-        <List>
-          {sortItems.map((item, idx) => (
-            <Todo
-              item={item}
-              key={item.id}
-              delete={this.delete}
-              update={this.update}
-            />
-          ))}
-        </List>
-      </Paper>
+    const { items, currentPage, itemsPerPage } = this.state;
+    const sortItems = this.sortItems(items);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = sortItems.slice(indexOfFirstItem, indexOfLastItem);
+
+    const todoItems = currentItems.length > 0 && (
+      <Grid container spacing={3}>
+        {currentItems.map((item, idx) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            key={item.id}
+            style={{ listStyleType: "none", backgroundColor: "white" }}
+          >
+            <div
+              style={{
+                margin: "0.5em",
+                padding: "1em",
+                backgroundColor: "#fdfaf5",
+              }}
+            >
+              <Todo item={item} delete={this.delete} update={this.update} />
+            </div>
+          </Grid>
+        ))}
+      </Grid>
     );
 
     var todoListPage = (
       <div>
         {navigationBar}
-        <Container maxWidth="md">
-          <AddTodo add={this.add} />
-          <TodoStats todos={this.state.items} />
-          <Select value={this.state.sortList} onChange={this.handleSort}>
-            <MenuItem value="deadline">마감일순</MenuItem>
-            <MenuItem value="register">등록순</MenuItem>
-            <MenuItem value="star">중요도순</MenuItem>
-            <MenuItem value="priority">우선순위순</MenuItem>
-          </Select>
-          <div className="TodoList">{todoItems}</div>
-        </Container>
-        <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
-        <Clear clearAll={this.clearAll} />
-        <Weathers />
-        <Quotes />
+        <div className="center">
+          <div className="add_Container">
+            <AddTodo add={this.add} />
+          </div>
+          <div>
+            <Quotes />
+            <div className="content">
+              <Container
+                maxWidth="md"
+                style={{
+                  padding: 0,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Select value={this.state.sortList} onChange={this.handleSort}>
+                  <MenuItem value="register">등록순</MenuItem>
+                  <MenuItem value="deadline">마감일순</MenuItem>
+                  <MenuItem value="star">중요도순</MenuItem>
+                  <MenuItem value="priority">우선순위순</MenuItem>
+                </Select>
+                <TodoStats todos={this.state.items} />
+              </Container>
+            </div>
+            <Paper
+              style={{
+                margin: "1em",
+                padding: "1em",
+                width: "70em",
+                height: "30em",
+              }}
+            >
+              {todoItems}
+            </Paper>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "1em 0",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleClickPrev}
+                disabled={currentPage === 1}
+                style={{ marginRight: "1em" }}
+              >
+                이전
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleClickNext}
+                disabled={indexOfLastItem >= items.length}
+              >
+                다음
+              </Button>
+            </div>
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <DeleteDoneAll clearAllDonelist={this.clearAllDonelist} />
+              <Clear clearAll={this.clearAll} />
+            </div>
+          </div>
+          <Weathers />
+        </div>
       </div>
     );
 
-    // loading 중일 때
     var loadingPage = <h1>Loading...</h1>;
     var content = loadingPage;
 
@@ -144,7 +218,6 @@ class App extends React.Component {
       content = todoListPage;
     }
 
-    // 생성된 컴포넌트 JSX를 리턴한다.
     return <div className="App">{content}</div>;
   }
 }

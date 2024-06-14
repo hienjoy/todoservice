@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import quotes from "./advice.json";
 import reLoad from "../Icons/reload.png";
+import { Paper } from "@material-ui/core";
 
 function Quotes() {
   const getRandomQuote = () => {
@@ -15,14 +16,27 @@ function Quotes() {
   };
 
   return (
-    <div style={{ textAlign: "center", margin: "50px" }}>
-      <h1>명언</h1>
-      <p>{quote.message}</p>
-      <p>
-        <strong>{quote.author}</strong> - {quote.authorProfile}
-      </p>
-      <img src={reLoad} alt="새로고침" onClick={handleClick} />
-    </div>
+    <Paper>
+      <div
+        style={{
+          textAlign: "center",
+          margin: "50px",
+          padding: "15px",
+          fontSize: "15px",
+        }}
+      >
+        <p>{quote.message}</p>
+        <p>
+          <strong>{quote.author}</strong> - {quote.authorProfile}
+        </p>
+        <img
+          src={reLoad}
+          alt="새로고침"
+          style={{ cursor: "pointer" }}
+          onClick={handleClick}
+        />
+      </div>
+    </Paper>
   );
 }
 

@@ -2,19 +2,12 @@ import React from "react";
 import {
   ListItem,
   ListItemText,
-  InputBase,
   Checkbox,
-  ListItemSecondaryAction,
   IconButton,
-  Modal,
-  Paper,
-  Typography,
-  Button,
-  Grid,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
-import CloseIcon from "@material-ui/icons/Close";
+import TodoModal from "./Functions/TodoModal";
 
 class Todo extends React.Component {
   constructor(props) {
@@ -24,7 +17,7 @@ class Todo extends React.Component {
       tempItem: { ...props.item },
       readOnly: true,
       open: false, // 모달 창 열림 여부
-      originalItem: { ...props.item }, // 수정 전 원본 아이템
+      originalItem: { ...props.item },
     };
     this.delete = props.delete;
     this.update = props.update;
@@ -32,20 +25,6 @@ class Todo extends React.Component {
 
   deleteEventHandler = () => {
     this.delete(this.state.item);
-  };
-
-  toggleReadOnlyMode = () => {
-    if (!this.state.readOnly) {
-      // 수정 완료 버튼을 눌렀을 때만 업데이트
-      this.setState(
-        { item: { ...this.state.tempItem }, readOnly: true },
-        () => {
-          this.update(this.state.tempItem);
-        }
-      );
-    } else {
-      this.setState({ readOnly: false });
-    }
   };
 
   editEventHandler = (e) => {
@@ -95,127 +74,55 @@ class Todo extends React.Component {
     this.setState({ open: false });
   };
 
+  handleSave = (updatedItem) => {
+    this.setState({ item: updatedItem });
+  };
+
   render() {
     const item = this.state.item;
-    const tempItem = this.state.tempItem;
     return (
       <>
-        <ListItem style={{ cursor: "pointer" }}>
+        <ListItem
+          style={{
+            cursor: "pointer",
+            minHeight: "5em",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Checkbox checked={item.done} onChange={this.checkboxEventHandler} />
           <ListItemText
-            primary={item.title}
+            primary={
+              <span
+                style={{
+                  display: "block",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {item.title}
+              </span>
+            }
             secondary={
-              item.deadline ? new Date(item.deadline).toLocaleString() : "" // deadline 설정 안 할 경우 빈 문자열 표시
+              item.deadline ? new Date(item.deadline).toLocaleDateString() : ""
             }
             onClick={this.handleOpen}
           />
-          <Rating value={item.star} readOnly />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Delete" onClick={this.deleteEventHandler}>
-              <DeleteOutlined />
-            </IconButton>
-          </ListItemSecondaryAction>
+          <Rating value={item.star} readOnly size="small" />
+          <IconButton aria-label="Delete" onClick={this.deleteEventHandler}>
+            <DeleteOutlined />
+          </IconButton>
         </ListItem>
-
-        <Modal open={this.state.open} onClose={this.handleClose}>
-          <Paper
-            style={{
-              margin: "auto",
-              marginTop: "10%",
-              padding: 20,
-              width: 600,
-              height: 600,
-              position: "relative",
-            }}
-          >
-            <IconButton
-              aria-label="Close"
-              onClick={this.handleClose}
-              style={{
-                position: "absolute",
-                right: 10,
-                top: 10,
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item>
-                <Checkbox
-                  checked={tempItem.done}
-                  onChange={this.checkboxEventHandler}
-                />
-              </Grid>
-              <Grid item>
-                <Typography variant="h6">{tempItem.title}</Typography>
-              </Grid>
-            </Grid>
-            <p>Title</p>
-            <InputBase
-              inputProps={{
-                readOnly: this.state.readOnly,
-              }}
-              type="text"
-              name="title"
-              value={tempItem.title}
-              multiline={true}
-              fullWidth={true}
-              onChange={this.editEventHandler}
-            />
-            <p>Content</p>
-            <InputBase
-              inputProps={{
-                readOnly: this.state.readOnly,
-              }}
-              type="text"
-              name="content"
-              value={tempItem.content}
-              multiline
-              fullWidth
-              onChange={this.editEventHandler}
-            />
-            <InputBase
-              inputProps={{
-                readOnly: this.state.readOnly,
-              }}
-              type="datetime-local"
-              name="deadline"
-              value={tempItem.deadline}
-              fullWidth
-              onChange={this.editEventHandler}
-              //onKeyDown={this.enterKeyEventHandler}
-            />
-            <p>Star</p>
-            <Rating
-              name="star"
-              value={tempItem.star}
-              readOnly={this.state.readOnly}
-            />
-            <p>Priority</p>
-            <InputBase
-              inputProps={{
-                readOnly: this.state.readOnly,
-                min: 1,
-              }}
-              type="number"
-              name="priority"
-              value={tempItem.priority}
-              fullWidth
-              onChange={this.editEventHandler}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.toggleReadOnlyMode}
-              style={{ marginTop: 10 }}
-            >
-              {this.state.readOnly ? "수정하기" : "수정완료"}
-            </Button>
-            <IconButton aria-label="Delete" onClick={this.deleteEventHandler}>
-              <DeleteOutlined />
-            </IconButton>
-          </Paper>
-        </Modal>
+        <TodoModal
+          open={this.state.open}
+          onClose={this.handleClose}
+          onSave={this.handleSave}
+          item={this.state.item}
+          update={this.update}
+          delete={this.deleteEventHandler}
+        />
       </>
     );
   }

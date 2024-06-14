@@ -15,7 +15,7 @@ class DeleteDoneAll extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ fontSize: "18px" }}>
         달성지우개
         <IconButton
           aria-label="달성한 일을 지우세요!"

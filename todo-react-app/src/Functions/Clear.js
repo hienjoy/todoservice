@@ -15,7 +15,7 @@ class Clear extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ fontSize: "18px" }}>
         다 사라져
         <IconButton aria-label="일 안 해!" onClick={this.deleteEventHandler}>
           <DeleteOutlined />

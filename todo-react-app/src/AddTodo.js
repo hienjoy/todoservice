@@ -5,7 +5,7 @@ class AddTodo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: { title: "", content: "", deadline: "", star: 0, priority: null },
+      item: { title: "", content: "", deadline: "", star: 0, priority: "" },
     };
     this.add = props.add;
   }
@@ -38,60 +38,100 @@ class AddTodo extends React.Component {
 
   render() {
     return (
-      <Paper style={{ margin: 16, padding: 16 }}>
+      <Paper style={{ margin: 16, padding: 16, backgroundColor: "#e3f1f8" }}>
         <Grid container spacing={5}>
-          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-            <p>Title</p>
+          <Grid xs={11} md={11} item>
+            <h3>Title</h3>
             <TextField
+              variant="standard"
               name="title"
               placeholder="Add Title here"
               fullWidth
               onChange={this.onInputChange}
               value={this.state.item.title}
+              InputProps={{
+                style: {
+                  backgroundColor: "white",
+                  padding: "0.5em",
+                },
+                disableUnderline: true,
+              }}
               //onKeyPress={this.enterKeyEventHandler}
             />
           </Grid>
-          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-            <p>Content</p>
+          <Grid xs={11} md={11} item>
+            <h3>Content</h3>
             <TextField
               name="content"
               placeholder="Add Content here"
+              variant="standard"
               fullWidth
               multiline
               onChange={this.onInputChange}
               value={this.state.item.content}
+              style={{ backgroundColor: "white", height: "100px" }}
+              InputProps={{
+                style: {
+                  height: "100%",
+                  alignItems: "flex-start",
+                  overflow: "auto",
+                  padding: "10px",
+                },
+                disableUnderline: true,
+              }}
             />
           </Grid>
-          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-            <p>deadline</p>
+          <Grid xs={11} md={11} item>
+            <h3>Deadline</h3>
             <TextField
               name="deadline"
               type="datetime-local"
+              variant="standard"
               fullWidth
               value={this.state.item.deadline}
               onChange={this.onInputChange}
+              InputProps={{
+                style: {
+                  backgroundColor: "white",
+                  padding: "0.5em",
+                },
+                disableUnderline: true,
+              }}
             />
           </Grid>
-          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-            <p>Star</p>
+          <Grid xs={11} md={11} item>
+            <h3>Importance</h3>
             <Rating
               name="star"
               value={this.state.item.star}
               onChange={this.onRatingChange}
             />
           </Grid>
-          <Grid xs={11} md={11} item style={{ paddingRight: 16 }}>
-            <p>Priority</p>
+          <Grid xs={11} md={11} item style={{ textAlign: "center" }}>
+            <h3>Priority</h3>
             <TextField
-              inputProps={{ min: 1 }}
+              inputProps={{
+                min: 1,
+                style: {
+                  textAlign: "center",
+                },
+              }}
+              variant="standard"
               name="priority"
               type="number"
               fullWidth
               onChange={this.onInputChange}
               value={this.state.item.priority}
+              InputProps={{
+                style: {
+                  backgroundColor: "white",
+                  padding: "0.5em",
+                },
+                disableUnderline: true,
+              }}
             />
           </Grid>
-          <Grid xs={2} md={2} item>
+          <Grid xs={11} md={11} item>
             <Button
               fullWidth
               color="secondary"
