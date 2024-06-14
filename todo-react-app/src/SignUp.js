@@ -31,7 +31,7 @@ class SignUp extends React.Component {
     const password = data.get("password");
     const passwordRegex = /^.{5,}$/;
     if (!passwordRegex.test(password)) {
-      alert("패스워드는 5자리 이상이어야 합니다.");
+      alert("패스워드는 5자리 이상 입력해주세요.");
       return;
     }
 
