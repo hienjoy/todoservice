@@ -8,6 +8,13 @@ import {
   Container,
   Typography,
 } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = {
+  customFont: {
+    fontFamily: "Arial, sans-serif",
+  },
+};
 
 class Login extends React.Component {
   constructor(props) {
@@ -22,17 +29,19 @@ class Login extends React.Component {
     const password = data.get("password");
     signin({ email: email, password: password });
   }
+
   render() {
+    const { classes } = this.props;
     return (
       <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-        <Grid container spacing={2}>
+        <Grid container style={{ margin: "1em" }}>
           <Typography component="h1" variant="h5">
             로그인
           </Typography>
         </Grid>
         <form noValidate onSubmit={this.handleSubmit}>
           {" "}
-          {/* submit 버튼을 클릭하면 handleSubmit이 실행됨}*/}
+          {/* submit 버튼을 클릭하면 handleSubmit이 실행됨 */}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -55,6 +64,11 @@ class Login extends React.Component {
                 label="패스워드"
                 name="password"
                 autoComplete="password"
+                InputProps={{
+                  classes: {
+                    input: classes.customFont,
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,7 +82,9 @@ class Login extends React.Component {
               </Button>
             </Grid>
             <Link href="/signup" variant="body2">
-              <Grid item>계정이 없습니까? 여기서 가입하세요.</Grid>
+              <Grid item style={{ margin: "1em" }}>
+                계정이 없습니까? 여기서 가입하세요.
+              </Grid>
             </Link>
           </Grid>
         </form>
@@ -76,4 +92,5 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+
+export default withStyles(styles)(Login);
