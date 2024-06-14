@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import AppRouter from "./AppRouter";
 import reportWebVitals from "./reportWebVitals";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily: "TodoFont",
   },
