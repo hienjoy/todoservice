@@ -3,10 +3,21 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import AppRouter from "./AppRouter";
 import reportWebVitals from "./reportWebVitals";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "TodoFont",
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppRouter />
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppRouter />
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
