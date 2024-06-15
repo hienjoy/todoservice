@@ -7,7 +7,7 @@ TODOLIST 기능 소개
 # 로그인 후 메인 화면
 ![초기화면](https://github.com/hienjoy/todoservice/assets/103023483/d5c6ce58-d568-483f-95b0-0baaf9d81921)
 # 리스트 작성
-제목, 내용, 마감기간, 중요도, 우선순위 지정 가능
+제목, 내용, 마감기한, 중요도, 우선순위 지정 가능
 ![목록 작성](https://github.com/hienjoy/todoservice/assets/103023483/f4a89074-8732-42f9-a1e9-ac664bbc49cd)
 # 페이징 기능
 ![페이징1](https://github.com/hienjoy/todoservice/assets/103023483/e8e7c61a-1923-45cc-877d-e851b4ad9a1d)
