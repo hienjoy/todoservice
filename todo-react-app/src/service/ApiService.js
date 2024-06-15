@@ -75,5 +75,5 @@ export function signout() {
   // local 스토리지에 토큰 삭제
   //localStorage.setItem("ACCESS_TOKEN", null);
   localStorage.removeItem("ACCESS_TOKEN");
-  window.location.href = "/";
+  window.location.href = "/login";
 }
